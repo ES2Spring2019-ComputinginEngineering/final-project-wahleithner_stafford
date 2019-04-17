@@ -62,6 +62,16 @@ def readDataFile(filename):
 
     return density, modulus, strength, classification, data_array
 
+def userData():
+    density = input("What is the material's density?")
+    modulus = input("What is the material's modulus of elasticity?")
+    strength = input("What is the material's yield tensile strength?")
+    test_array = np.zeros(1,3)
+    test_array[1,0] = float(density)
+    test_array[1,1] = float(modulus)
+    test_array[1,2] = float(strength)
+    return test_array
+
 def graphdata2D(density, modulus, strength, classification):
     #density vs. tensile strength
     plt.figure()
@@ -112,6 +122,9 @@ def graphdata3D(density, modulus, strength, classification):
     ax.set_ylabel("Tensile Strength (at yield)")
     ax.set_zlabel("Young's Modulus")
 
+
+#Call functions
 den, mod, stren, classif, data = readDataFile("data.csv")
+userData()
 graphdata2D(den, mod, stren, classif)    
 graphdata3D(den, mod, stren, classif)
