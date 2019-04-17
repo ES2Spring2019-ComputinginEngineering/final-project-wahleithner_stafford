@@ -66,10 +66,10 @@ def userData():
     density = input("What is the material's density?")
     modulus = input("What is the material's modulus of elasticity?")
     strength = input("What is the material's yield tensile strength?")
-    test_array = np.zeros(1,3)
-    test_array[1,0] = float(density)
-    test_array[1,1] = float(modulus)
-    test_array[1,2] = float(strength)
+    test_array = np.zeros((1,3))
+    test_array[0,0] = float(density)
+    test_array[0,1] = float(modulus)
+    test_array[0,2] = float(strength)
     return test_array
 
 def graphdata2D(density, modulus, strength, classification):
@@ -109,7 +109,7 @@ def graphdata2D(density, modulus, strength, classification):
     plt.legend()
     plt.show()
     
-def graphdata3D(density, modulus, strength, classification):
+def graphdata3D(density, modulus, strength, classification, test_array):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     
@@ -117,6 +117,7 @@ def graphdata3D(density, modulus, strength, classification):
     ax.scatter(density[classification == 1], modulus[classification == 1], strength[classification == 1], c='b', marker='o', label = "Aluminum")
     ax.scatter(density[classification == 2], modulus[classification == 2], strength[classification == 2], c='g', marker='o', label = "Steel")
     ax.scatter(density[classification == 3], modulus[classification == 3], strength[classification == 3], c='k', marker='o', label = "Tungsten")
+    ax.scatter(test_array[:,0],test_array[:,1],test_array[:,2], c = 'y', marker = 'o')
     
     ax.set_xlabel("Density'")
     ax.set_ylabel("Tensile Strength (at yield)")
@@ -125,6 +126,6 @@ def graphdata3D(density, modulus, strength, classification):
 
 #Call functions
 den, mod, stren, classif, data = readDataFile("data.csv")
-userData()
+test_case = userData()
 graphdata2D(den, mod, stren, classif)    
-graphdata3D(den, mod, stren, classif)
+graphdata3D(den, mod, stren, classif, test_case)
