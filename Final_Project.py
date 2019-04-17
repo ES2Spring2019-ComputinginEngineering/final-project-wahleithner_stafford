@@ -103,10 +103,13 @@ def graphdata3D(density, modulus, strength, classification):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     
-    ax.scatter(density, modulus, strength, c='r', marker='o')
+    ax.scatter(density[classification == 0], modulus[classification == 0], strength[classification == 0], c='r', marker='o', label = "Magnesium")
+    ax.scatter(density[classification == 1], modulus[classification == 1], strength[classification == 1], c='b', marker='o', label = "Aluminum")
+    ax.scatter(density[classification == 2], modulus[classification == 2], strength[classification == 2], c='g', marker='o', label = "Steel")
+    ax.scatter(density[classification == 3], modulus[classification == 3], strength[classification == 3], c='k', marker='o', label = "Tungsten")
     
-    ax.set_xlabel('Density')
-    ax.set_ylabel('Tensile Strength (at yield)')
+    ax.set_xlabel("Density'")
+    ax.set_ylabel("Tensile Strength (at yield)")
     ax.set_zlabel("Young's Modulus")
 
 den, mod, stren, classif, data = readDataFile("data.csv")
