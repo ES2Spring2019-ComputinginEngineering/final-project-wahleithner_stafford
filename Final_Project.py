@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from IPython import get_ipython
 ipython = get_ipython()
-ipython.magic("matplotlib auto")
+ipython.magic("matplotlib inline")
 #change how plot appears
 #saving graphs within the code
 #generate videos from graph - rotation
@@ -62,7 +62,7 @@ def readDataFile(filename):
 
     return density, modulus, strength, classification, data_array
 
-def cluster_graph2D(density, modulus, strength, classification):
+def graphdata2D(density, modulus, strength, classification):
     #density vs. tensile strength
     plt.figure()
     plt.plot(density[classification==0], strength[classification==0],"r.", label = "Magnesium")
@@ -75,22 +75,40 @@ def cluster_graph2D(density, modulus, strength, classification):
     plt.legend()
     plt.show()
     
-den, mod, stren, classif, data = readDataFile("materials_data.csv")
-cluster_graph2D(den, mod, stren, classif)
-
-def graphdata(x, y, z):
+      #density vs. modulus of elasticity
+    plt.figure()
+    plt.plot(density[classification==0], modulus[classification==0],"r.", label = "Magnesium")
+    plt.plot(density[classification==1], modulus[classification==1],"b.", label = "Aluminum")
+    plt.plot(density[classification==2], modulus[classification==2],"g.", label = "Steel")
+    plt.plot(density[classification==3], modulus[classification==3],"k.", label = "Tungsten")
+    plt.title("Modulus of Elasticity - Density")
+    plt.xlabel("Density")
+    plt.ylabel("Modulus of Elasticity")
+    plt.legend()
+    plt.show()
+    
+    #modulus of elasticity vs. tensile strength
+    plt.figure()
+    plt.plot(strength[classification==0], modulus[classification==0],"r.", label = "Magnesium")
+    plt.plot(strength[classification==1], modulus[classification==1],"b.", label = "Aluminum")
+    plt.plot(strength[classification==2], modulus[classification==2],"g.", label = "Steel")
+    plt.plot(strength[classification==3], modulus[classification==3],"k.", label = "Tungsten")
+    plt.title("Modulus of Elasticity - Strength")
+    plt.xlabel("Tensile Strength (at yield)")
+    plt.ylabel("Modulus of Elasticity")
+    plt.legend()
+    plt.show()
+    
+def graphdata3D(density, modulus, strength, classification):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     
-    den = prop[:, 0]
-    mod = prop[:, 1]
-    stren = prop[:, 2]
-    classif = prop[:, 3]
+    ax.scatter(density, modulus, strength, c='r', marker='o')
     
-    ax.scatter(x, y, z, c='r', marker='o')
-    
-    ax.set_xlabel('X Label')
-    ax.set_ylabel('Y Label')
-    ax.set_zlabel('Z Label')
+    ax.set_xlabel('Density')
+    ax.set_ylabel('Tensile Strength (at yield)')
+    ax.set_zlabel("Young's Modulus")
 
-prop = np.array([[1,2,3,4,5,6,7,8,9,10], [5,6,2,3,13,4,1,2,4,8], [2,3,3,3,5,7,9,11,9,10]])
+den, mod, stren, classif, data = readDataFile("data.csv")
+graphdata2D(den, mod, stren, classif)    
+graphdata3D(den, mod, stren, classif)
