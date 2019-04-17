@@ -4,7 +4,6 @@ Created on Wed Apr 17 15:08:55 2019
 
 @author: zosia
 """
-
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 
@@ -23,6 +22,6 @@ ax.set_zlabel('Z Label')
 
 for i in range(0, 360, 45):
     ax.view_init(None, i)
-    plt.show()
+    plt.draw()
 
 
