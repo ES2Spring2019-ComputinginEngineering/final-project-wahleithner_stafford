@@ -71,11 +71,13 @@ def userData():
 def graphdata2D(density, modulus, strength, classification,test_array):
     #density vs. tensile strength
     plt.figure()
-    plt.plot(density[classification==0], strength[classification==0],"ro", label = "Magnesium")
+    plt.plot(density[classification==0], strength[classification==0],"yo", label = "Magnesium")
     plt.plot(density[classification==1], strength[classification==1],"bo", label = "Aluminum")
     plt.plot(density[classification==2], strength[classification==2],"go", label = "Steel")
     plt.plot(density[classification==3], strength[classification==3],"ko", label = "Tungsten")
-    plt.plot(test_array[:,0],test_array[:,2], "yo", label = "Unknown")
+    plt.plot(density[classification==4], strength[classification==4],"co", label = "Zinc")
+    plt.plot(density[classification==5], strength[classification==5],"mo", label = "Titanium")
+    plt.plot(test_array[:,0],test_array[:,2], "ro", label = "Unknown")
     plt.title("Strength - Density")
     plt.xlabel("Density (g/cc)")
     plt.ylabel("Tensile Strength, at yield (MPa)")
@@ -86,11 +88,13 @@ def graphdata2D(density, modulus, strength, classification,test_array):
     
      #density vs. modulus of elasticity
     plt.figure()
-    plt.plot(density[classification==0], modulus[classification==0],"ro", label = "Magnesium")
+    plt.plot(density[classification==0], modulus[classification==0],"yo", label = "Magnesium")
     plt.plot(density[classification==1], modulus[classification==1],"bo", label = "Aluminum")
     plt.plot(density[classification==2], modulus[classification==2],"go", label = "Steel")
     plt.plot(density[classification==3], modulus[classification==3],"ko", label = "Tungsten")
-    plt.plot(test_array[:,0],test_array[:,1], "yo", label = "Unknown")
+    plt.plot(density[classification==4], modulus[classification==4],"co", label = "Zinc")
+    plt.plot(density[classification==5], modulus[classification==5],"mo", label = "Titanium")
+    plt.plot(test_array[:,0],test_array[:,1], "ro", label = "Unknown")
     plt.title("Young's Modulus - Density")
     plt.xlabel("Density (g/cc)")
     plt.ylabel("Young's Modulus (GPa)")
@@ -101,11 +105,13 @@ def graphdata2D(density, modulus, strength, classification,test_array):
     
     #modulus of elasticity vs. tensile strength
     plt.figure()
-    plt.plot(strength[classification==0], modulus[classification==0],"ro", label = "Magnesium")
+    plt.plot(strength[classification==0], modulus[classification==0],"yo", label = "Magnesium")
     plt.plot(strength[classification==1], modulus[classification==1],"bo", label = "Aluminum")
     plt.plot(strength[classification==2], modulus[classification==2],"go", label = "Steel")
     plt.plot(strength[classification==3], modulus[classification==3],"ko", label = "Tungsten")
-    plt.plot(test_array[:,1],test_array[:,2], "yo", label = "Unknown")
+    plt.plot(strength[classification==4], modulus[classification==4],"co", label = "Zinc")
+    plt.plot(strength[classification==5], modulus[classification==5],"mo", label = "Titanium")
+    plt.plot(test_array[:,1],test_array[:,2], "ro", label = "Unknown")
     plt.title("Young's Modulus - Strength")
     plt.xlabel("Tensile Strength, at yield (MPa)")
     plt.ylabel("Young's Modulus (GPa)")
@@ -118,13 +124,13 @@ def graphdata3D(density, modulus, strength, classification, test_array):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     
-    ax.scatter(density[classification == 0], modulus[classification == 0], strength[classification == 0], c='r', marker='o', label = "Magnesium")
+    ax.scatter(density[classification == 0], modulus[classification == 0], strength[classification == 0], c='y', marker='o', label = "Magnesium")
     ax.scatter(density[classification == 1], modulus[classification == 1], strength[classification == 1], c='b', marker='o', label = "Aluminum")
     ax.scatter(density[classification == 2], modulus[classification == 2], strength[classification == 2], c='g', marker='o', label = "Steel")
     ax.scatter(density[classification == 3], modulus[classification == 3], strength[classification == 3], c='k', marker='o', label = "Tungsten")
     ax.scatter(density[classification == 4], modulus[classification == 4], strength[classification == 4], c='c', marker='o', label = "Zinc")
     ax.scatter(density[classification == 5], modulus[classification == 5], strength[classification == 5], c='m', marker='o', label = "Titanium")
-    ax.scatter(test_array[:,0],test_array[:,1],test_array[:,2], c = 'y', marker = 'o')
+    ax.scatter(test_array[:,0],test_array[:,1],test_array[:,2], c = 'r', marker = 'o')
     
     ax.set_xlabel("Density (g/cc)")
     ax.set_ylabel("Tensile Strength, at yield (MPa)")
