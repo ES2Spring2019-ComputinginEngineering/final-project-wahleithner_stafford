@@ -17,7 +17,7 @@ ipython.magic("matplotlib inline")
 #generate videos from graph - rotation
 
 def readDataFile(filename):
-    #function reads the data file, "data.xlxs" and reads three arrays of equal length:
+    #function reads the data file, "data.csv" and reads three arrays of equal length:
     #density, modulus of elasticity, tensile strength
     csv_file = open(filename)
     total_row = sum(1 for row in csv_file)
@@ -36,7 +36,6 @@ def readDataFile(filename):
     index = 0
     for row in csv_reader:
         if line_count == 0:
-            print('Column names are '+ str(row))
             line_count += 1
         else:
             density[index] = ((float(row[0])))
@@ -56,9 +55,9 @@ def readDataFile(filename):
     return density, modulus, strength, classification, data_array
 
 def userData():
-    density = input("What is the material's density?")
-    modulus = input("What is the material's modulus of elasticity?")
-    strength = input("What is the material's yield tensile strength?")
+    density = input("What is the material's density? ")
+    modulus = input("What is the material's modulus of elasticity? ")
+    strength = input("What is the material's yield tensile strength? ")
     test_array = np.zeros((1,3))
     test_array[0,0] = float(density)
     test_array[0,1] = float(modulus)
@@ -76,25 +75,27 @@ def graphdata2D(density, modulus, strength, classification,test_array):
     plt.plot(density[classification==1], strength[classification==1],"bo", label = "Aluminum")
     plt.plot(density[classification==2], strength[classification==2],"go", label = "Steel")
     plt.plot(density[classification==3], strength[classification==3],"ko", label = "Tungsten")
-    plt.plot(test_array[:,0],test_array[:,2], c = 'y', marker = 'o', label = "Unknown")
-    plt.title("Density vs. Tensile Strength (at yield)")
-    plt.xlabel("Density")
-    plt.ylabel("Tensile Strength (at yield)")
+    plt.plot(test_array[:,0],test_array[:,2], "yo", label = "Unknown")
+    plt.title("Strength - Density")
+    plt.xlabel("Density (g/cc)")
+    plt.ylabel("Tensile Strength, at yield (MPa)")
     plt.legend()
+    plt.grid()
     plt.savefig("density_strength.png")     #saves graph as a png file
     plt.show()
     
-      #density vs. modulus of elasticity
+     #density vs. modulus of elasticity
     plt.figure()
     plt.plot(density[classification==0], modulus[classification==0],"ro", label = "Magnesium")
     plt.plot(density[classification==1], modulus[classification==1],"bo", label = "Aluminum")
     plt.plot(density[classification==2], modulus[classification==2],"go", label = "Steel")
     plt.plot(density[classification==3], modulus[classification==3],"ko", label = "Tungsten")
-    plt.plot(test_array[:,0],test_array[:,1], c = 'y', marker = 'o', label = "Unknown")
-    plt.title("Modulus of Elasticity - Density")
-    plt.xlabel("Density")
-    plt.ylabel("Modulus of Elasticity")
+    plt.plot(test_array[:,0],test_array[:,1], "yo", label = "Unknown")
+    plt.title("Young's Modulus - Density")
+    plt.xlabel("Density (g/cc)")
+    plt.ylabel("Young's Modulus (GPa)")
     plt.legend()
+    plt.grid()
     plt.savefig("density_modulus.png")
     plt.show()
     
@@ -104,11 +105,12 @@ def graphdata2D(density, modulus, strength, classification,test_array):
     plt.plot(strength[classification==1], modulus[classification==1],"bo", label = "Aluminum")
     plt.plot(strength[classification==2], modulus[classification==2],"go", label = "Steel")
     plt.plot(strength[classification==3], modulus[classification==3],"ko", label = "Tungsten")
-    plt.plot(test_array[:,1],test_array[:,2], c = 'y', marker = 'o', label = "Unknown")
-    plt.title("Modulus of Elasticity - Strength")
-    plt.xlabel("Tensile Strength (at yield)")
-    plt.ylabel("Modulus of Elasticity")
+    plt.plot(test_array[:,1],test_array[:,2], "yo", label = "Unknown")
+    plt.title("Young's Modulus - Strength")
+    plt.xlabel("Tensile Strength, at yield (MPa)")
+    plt.ylabel("Young's Modulus (GPa)")
     plt.legend()
+    plt.grid()
     plt.savefig("modulus_strength.png", bbox_inches = "tight")
     plt.show()
     
@@ -122,14 +124,14 @@ def graphdata3D(density, modulus, strength, classification, test_array):
     ax.scatter(density[classification == 3], modulus[classification == 3], strength[classification == 3], c='k', marker='o', label = "Tungsten")
     ax.scatter(test_array[:,0],test_array[:,1],test_array[:,2], c = 'y', marker = 'o')
     
-    ax.set_xlabel("Density'")
-    ax.set_ylabel("Tensile Strength (at yield)")
-    ax.set_zlabel("Young's Modulus")
+    ax.set_xlabel("Density (g/cc)")
+    ax.set_ylabel("Tensile Strength, at yield (MPa)")
+    ax.set_zlabel("Young's Modulus (GPa)")
     plt.savefig("density_strength_modulus.png", bbox_inches = "tight")
 
 
 #Call functions
-den, mod, stren, classif, data = readDataFile("data.csv")
+den, mod, stren, classif, prop_array = readDataFile("data.csv")
 test_case = userData()
 graphdata2D(den, mod, stren, classif, test_case)    
 graphdata3D(den, mod, stren, classif, test_case)
