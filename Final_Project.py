@@ -122,6 +122,8 @@ def graphdata3D(density, modulus, strength, classification, test_array):
     ax.scatter(density[classification == 1], modulus[classification == 1], strength[classification == 1], c='b', marker='o', label = "Aluminum")
     ax.scatter(density[classification == 2], modulus[classification == 2], strength[classification == 2], c='g', marker='o', label = "Steel")
     ax.scatter(density[classification == 3], modulus[classification == 3], strength[classification == 3], c='k', marker='o', label = "Tungsten")
+    ax.scatter(density[classification == 4], modulus[classification == 4], strength[classification == 4], c='c', marker='o', label = "Zinc")
+    ax.scatter(density[classification == 5], modulus[classification == 5], strength[classification == 5], c='m', marker='o', label = "Titanium")
     ax.scatter(test_array[:,0],test_array[:,1],test_array[:,2], c = 'y', marker = 'o')
     
     ax.set_xlabel("Density (g/cc)")
