@@ -63,7 +63,7 @@ def userData():
     test_array[0,1] = float(modulus)
     test_array[0,2] = float(strength)
     
-    answer = input("Would you like the graphs to be interactive and appear in a different window? Yes/No ")
+    answer = input("Would you like the graphs to be interactive and appear in a different window? Yes/No: ")
     if (answer == "Yes") or (answer == "yes"):
         ipython.magic("matplotlib auto")
     return test_array
