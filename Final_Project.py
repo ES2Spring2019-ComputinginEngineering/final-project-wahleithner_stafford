@@ -12,6 +12,7 @@ import numpy as np
 from IPython import get_ipython
 ipython = get_ipython()
 ipython.magic("matplotlib inline")
+
 #change how plot appears
 #saving graphs within the code
 #generate videos from graph - rotation
@@ -21,16 +22,11 @@ def readDataFile(filename):
     #density, modulus of elasticity, tensile strength
     csv_file = open(filename)
     total_row = sum(1 for row in csv_file)
-
     print(total_row)
-    
-
     csv_file.seek(0)
-
     csv_reader = csv.reader(csv_file, delimiter=',')
 
-    line_count = 0 
-    
+    line_count = 0     
     density = np.zeros(((total_row-1),))
     modulus = np.zeros(((total_row-1),))
     strength = np.zeros(((total_row-1),))
@@ -39,7 +35,6 @@ def readDataFile(filename):
     data_array = np.zeros((total_row-1, 4))
 
     index = 0
-    
     for row in csv_reader:
         if line_count == 0:
             print('Column names are '+ str(row))
@@ -59,7 +54,6 @@ def readDataFile(filename):
             line_count += 1
     
     csv_file.close()
-
     return density, modulus, strength, classification, data_array
 
 def userData():
@@ -70,6 +64,10 @@ def userData():
     test_array[0,0] = float(density)
     test_array[0,1] = float(modulus)
     test_array[0,2] = float(strength)
+    
+    answer = input("Would you like the graphs to be interactive and appear in a different window? Yes/No ")
+    if (answer == "Yes") or (answer == "yes"):
+        ipython.magic("matplotlib auto")
     return test_array
 
 def graphdata2D(density, modulus, strength, classification):
@@ -83,6 +81,7 @@ def graphdata2D(density, modulus, strength, classification):
     plt.xlabel("Density")
     plt.ylabel("Tensile Strength (at yield)")
     plt.legend()
+    plt.savefig("density_strength.png")     #saves graph as a png file
     plt.show()
     
       #density vs. modulus of elasticity
@@ -95,6 +94,7 @@ def graphdata2D(density, modulus, strength, classification):
     plt.xlabel("Density")
     plt.ylabel("Modulus of Elasticity")
     plt.legend()
+    plt.savefig("density_modulus.png")
     plt.show()
     
     #modulus of elasticity vs. tensile strength
@@ -107,6 +107,7 @@ def graphdata2D(density, modulus, strength, classification):
     plt.xlabel("Tensile Strength (at yield)")
     plt.ylabel("Modulus of Elasticity")
     plt.legend()
+    plt.savefig("modulus_strength.png", bbox_inches = "tight")
     plt.show()
     
 def graphdata3D(density, modulus, strength, classification, test_array):
@@ -122,6 +123,7 @@ def graphdata3D(density, modulus, strength, classification, test_array):
     ax.set_xlabel("Density'")
     ax.set_ylabel("Tensile Strength (at yield)")
     ax.set_zlabel("Young's Modulus")
+    plt.savefig("density_strength_modulus.png", bbox_inches = "tight")
 
 
 #Call functions
