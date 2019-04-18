@@ -4,7 +4,6 @@ Created on Wed Apr 17 15:08:55 2019
 
 @author: zosia
 """
-#%matlibplot inline
 import csv
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
