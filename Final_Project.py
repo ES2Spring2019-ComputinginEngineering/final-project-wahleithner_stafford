@@ -21,7 +21,6 @@ def readDataFile(filename):
     #density, modulus of elasticity, tensile strength
     csv_file = open(filename)
     total_row = sum(1 for row in csv_file)
-    print(total_row)
     csv_file.seek(0)
     csv_reader = csv.reader(csv_file, delimiter=',')
 
@@ -53,23 +52,24 @@ def readDataFile(filename):
     csv_file.close()
     return density, modulus, strength, classification, data_array
 
-#def normalize(density, modulus, strength, data_array):
-#    d_min = min(density)
-#    d_max = max(density)
-#    m_min = min(modulus)
-#    m_max = max(modulus)
-#    s_min = min(strength)
-#    s_max = max(strength)
-#    for i in density:
-#        density[i] = (density[i]-d_min)/(d_max - d_min)
-#        data_array[i, 0] = density[i]
-#    for index in modulus:
-#        modulus[index] = (modulus[index]- m_min)/(m_max - m_min)
-#        data_array[index, 1] = modulus[index]
-#    for index in strength:
-#        strength[index] = (strength[index]- s_min)/(s_max - s_min)
-#        data_array[index, 2] = strength[index]   
-#    return density, modulus, strength, data_array
+def normalize(density, modulus, strength, data_array):
+    d_min = min(density)
+
+    d_max = max(density)
+    m_min = min(modulus)
+    m_max = max(modulus)
+    s_min = min(strength)
+    s_max = max(strength)
+    for i in range(len(density)):
+        density[i] = (density[i]-d_min)/(d_max - d_min)
+        data_array[i, 0] = density[i]
+    for index in range(len(modulus)):
+        modulus[index] = (modulus[index]- m_min)/(m_max - m_min)
+        data_array[index, 1] = modulus[index]
+    for index in range(len(strength)):
+        strength[index] = (strength[index]- s_min)/(s_max - s_min)
+        data_array[index, 2] = strength[index]   
+    return density, modulus, strength, data_array
 
 def userData():
     density = input("What is the material's density? ")
@@ -157,7 +157,7 @@ def graphdata3D(density, modulus, strength, classification, test_array):
 
 #Call functions
 den, mod, stren, classif, prop_array = readDataFile("data.csv")
-#den, mod, stre, prop_array = normalize(den, mod, stren, prop_array)
+den, mod, stre, prop_array = normalize(den, mod, stren, prop_array)
 test_case = userData()
 graphdata2D(den, mod, stren, classif, test_case)    
 graphdata3D(den, mod, stren, classif, test_case)
