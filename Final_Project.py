@@ -156,6 +156,8 @@ def graphdata3D(density, modulus, strength, classification, test_array):
     
 #def knearestneighbor:
     #from 3D arrays, create an array of the closest points and their classifications
+    
+#def topmaterials
     #find top three points with different classifications
     
 #def denormalize
@@ -172,3 +174,5 @@ den, mod, stre, prop_array = normalize(den, mod, stren, prop_array)
 test_case = userData()
 graphdata2D(den, mod, stren, classif, test_case)    
 graphdata3D(den, mod, stren, classif, test_case)
+
+#make driver
