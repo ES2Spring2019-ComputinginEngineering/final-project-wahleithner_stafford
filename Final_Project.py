@@ -153,7 +153,18 @@ def graphdata3D(density, modulus, strength, classification, test_array):
     ax.set_ylabel("Tensile Strength, at yield (MPa)")
     ax.set_zlabel("Young's Modulus (GPa)")
     plt.savefig("density_strength_modulus.png", bbox_inches = "tight")
-
+    
+#def knearestneighbor:
+    #from 3D arrays, create an array of the closest points and their classifications
+    #find top three points with different classifications
+    
+#def denormalize
+    #denormalize the data
+    
+#def returnmaterials
+    #return classifications of top three closest points of different material
+    #return a percentage correlating to how close the test case was to each
+    #return denormalized data corresponding to these materials
 
 #Call functions
 den, mod, stren, classif, prop_array = readDataFile("data.csv")
