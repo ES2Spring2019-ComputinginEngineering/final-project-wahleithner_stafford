@@ -122,16 +122,16 @@ def graphdata2D(density, modulus, strength, classification,test_array):
     
     #modulus of elasticity vs. tensile strength
     plt.figure()
-    plt.plot(strength[classification==0], modulus[classification==0],"yo", label = "Magnesium")
-    plt.plot(strength[classification==1], modulus[classification==1],"bo", label = "Aluminum")
-    plt.plot(strength[classification==2], modulus[classification==2],"go", label = "Steel")
-    plt.plot(strength[classification==3], modulus[classification==3],"ko", label = "Tungsten")
-    plt.plot(strength[classification==4], modulus[classification==4],"co", label = "Zinc")
-    plt.plot(strength[classification==5], modulus[classification==5],"mo", label = "Titanium")
+    plt.plot(modulus[classification==0], strength[classification==0], "yo", label = "Magnesium")
+    plt.plot(modulus[classification==1], strength[classification==1], "bo", label = "Aluminum")
+    plt.plot(modulus[classification==2], strength[classification==2], "go", label = "Steel")
+    plt.plot(modulus[classification==3], strength[classification==3], "ko", label = "Tungsten")
+    plt.plot(modulus[classification==4], strength[classification==4], "co", label = "Zinc")
+    plt.plot(modulus[classification==5], strength[classification==5], "mo", label = "Titanium")
     plt.plot(test_array[:,1],test_array[:,2], "ro", label = "Unknown")
     plt.title("Young's Modulus - Strength")
-    plt.xlabel("Tensile Strength, at yield (MPa)")
-    plt.ylabel("Young's Modulus (GPa)")
+    plt.xlabel("Young's Modulus (GPa)")
+    plt.ylabel("Tensile Strength, at yield (MPa)")
     plt.legend()
     plt.grid()
     plt.savefig("modulus_strength.png", bbox_inches = "tight")
@@ -150,8 +150,8 @@ def graphdata3D(density, modulus, strength, classification, test_array):
     ax.scatter(test_array[:,0],test_array[:,1],test_array[:,2], c = 'r', marker = 'o')
     
     ax.set_xlabel("Density (g/cc)")
-    ax.set_ylabel("Tensile Strength, at yield (MPa)")
-    ax.set_zlabel("Young's Modulus (GPa)")
+    ax.set_ylabel("Young's Modulus (GPa)")
+    ax.set_zlabel("Tensile Strength, at yield (MPa)")
     plt.savefig("density_strength_modulus.png", bbox_inches = "tight")
     
 #def knearestneighbor:
