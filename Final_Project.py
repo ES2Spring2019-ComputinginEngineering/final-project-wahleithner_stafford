@@ -8,6 +8,7 @@ import csv
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import numpy as np
+import math as m
 from IPython import get_ipython
 ipython = get_ipython()
 ipython.magic("matplotlib inline")
@@ -74,13 +75,13 @@ def userData(d_min, d_max, m_min, m_max, s_min, s_max):
     density = input("What is the material's density? ")
     modulus = input("What is the material's modulus of elasticity? ")
     strength = input("What is the material's yield tensile strength? ")
-    density = (float(density) - d_min)/(d_max - d_min)
-    modulus = (float(modulus) - m_min)/(m_max - m_min)
-    strength = (float(strength) - s_min)/(s_max - s_min)
+    ndensity = (float(density) - d_min)/(d_max - d_min)
+    nmodulus = (float(modulus) - m_min)/(m_max - m_min)
+    nstrength = (float(strength) - s_min)/(s_max - s_min)
     test_array = np.zeros((1,3))
-    test_array[0,0] = float(density)
-    test_array[0,1] = float(modulus)
-    test_array[0,2] = float(strength)
+    test_array[0,0] = float(ndensity)
+    test_array[0,1] = float(nmodulus)
+    test_array[0,2] = float(nstrength)
     
     answer = input("Would you like the graphs to be interactive and appear in a different window? Yes/No: ")
     if (answer == "Yes") or (answer == "yes"):
@@ -155,6 +156,14 @@ def graphdata3D(density, modulus, strength, classification, test_array):
     ax.set_ylabel("Young's Modulus (GPa)")
     ax.set_zlabel("Tensile Strength, at yield (MPa)")
     plt.savefig("density_strength_modulus.png", bbox_inches = "tight")
+
+#def distancearray(ndensity, nmodulus, nstrength, density, modulus, strength):
+#    distance = np.zeros(len(density))
+#    for i in range(len(density)):
+#        distance[i] = m.sqrt((density[i]-ndensity)**2+(modulus[i]-nmodulus)**2 +(strength[i]-nstrength)**2)
+#    print(distance)
+#    return distance
+#WHY WONT IT WORK??????? error says it got an array when it wanted a scalar -- but i want an array??
     
 #def knearestneighbor:
     #from 3D arrays, create an array of the closest points and their classifications
@@ -176,5 +185,6 @@ den, mod, stren, prop_array, d_min, d_max, m_min, m_max, s_min, s_max = normaliz
 test_case = userData(d_min, d_max, m_min, m_max, s_min, s_max)
 graphdata2D(den, mod, stren, classif, test_case)    
 graphdata3D(den, mod, stren, classif, test_case)
+distance_array = distancearray(test_case[:0], test_case[:1], test_case[:2], den, mod, stren)
 
 #make driver
