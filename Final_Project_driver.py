@@ -15,11 +15,13 @@ ipython = get_ipython()
 ipython.magic("matplotlib inline")
 
 from Final_Project import readDataFile, normalize, userData, graphdata2D, 
-graphdata3D
+graphdata3D, distanceArray
 
 den, mod, stren, classif, prop_array = readDataFile("data.csv")
 den, mod, stre, prop_array = normalize(den, mod, stren, prop_array)
 test_case = userData()
 graphdata2D(den, mod, stren, classif, test_case)    
 graphdata3D(den, mod, stren, classif, test_case)
+distance_array = distancearray(test_case[0,0], test_case[0,1], test_case[0,2], 
+                               den, mod, stren)
 
