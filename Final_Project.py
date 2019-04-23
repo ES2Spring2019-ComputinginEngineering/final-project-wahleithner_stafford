@@ -115,9 +115,9 @@ def graphdata2D(density, modulus, strength, classification,test_array):
     plt.plot(density[classification==4], modulus[classification==4],"co", label = "Zinc")
     plt.plot(density[classification==5], modulus[classification==5],"mo", label = "Titanium")
     plt.plot(test_array[:,0],test_array[:,1], "ro", label = "Unknown")
-    plt.title("Young's Modulus - Density")
+    plt.title("Modulus of Elasticity - Density")
     plt.xlabel("Density (g/cc)")
-    plt.ylabel("Young's Modulus (GPa)")
+    plt.ylabel("Modulus of Elasticity (GPa)")
     plt.legend()
     plt.grid()
     plt.savefig("density_modulus.png")
@@ -132,8 +132,8 @@ def graphdata2D(density, modulus, strength, classification,test_array):
     plt.plot(modulus[classification==4], strength[classification==4], "co", label = "Zinc")
     plt.plot(modulus[classification==5], strength[classification==5], "mo", label = "Titanium")
     plt.plot(test_array[:,1],test_array[:,2], "ro", label = "Unknown")
-    plt.title("Young's Modulus - Strength")
-    plt.xlabel("Young's Modulus (GPa)")
+    plt.title("Modulus of Elasticity - Strength")
+    plt.xlabel("Modulus of Elasticity (GPa)")
     plt.ylabel("Tensile Strength, at yield (MPa)")
     plt.legend()
     plt.grid()
@@ -142,7 +142,7 @@ def graphdata2D(density, modulus, strength, classification,test_array):
     
 def graphdata3D(density, modulus, strength, classification, test_array):
     fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
+    ax = Axes3D(fig)
     
     ax.scatter(density[classification == 0], modulus[classification == 0], strength[classification == 0], c='y', marker='o', label = "Magnesium")
     ax.scatter(density[classification == 1], modulus[classification == 1], strength[classification == 1], c='b', marker='o', label = "Aluminum")
@@ -153,28 +153,91 @@ def graphdata3D(density, modulus, strength, classification, test_array):
     ax.scatter(test_array[:,0],test_array[:,1],test_array[:,2], c = 'r', marker = 'o')
     
     ax.set_xlabel("Density (g/cc)")
-    ax.set_ylabel("Young's Modulus (GPa)")
+    ax.set_ylabel("Modulus of Elasticity (GPa)")
     ax.set_zlabel("Tensile Strength, at yield (MPa)")
     plt.savefig("density_strength_modulus.png", bbox_inches = "tight")
 
-#def distancearray(ndensity, nmodulus, nstrength, density, modulus, strength):
-#    distance = np.zeros(len(density))
-#    for i in range(len(density)):
-#        distance[i] = m.sqrt((density[i]-ndensity)**2+(modulus[i]-nmodulus)**2 +(strength[i]-nstrength)**2)
-#    print(distance)
-#    return distance
-#WHY WONT IT WORK??????? error says it got an array when it wanted a scalar -- but i want an array??
+def distancearray(ndensity, nmodulus, nstrength, density, modulus, strength):
+    distance = np.zeros(len(density))
+    for i in range(len(density)):
+        distance[i] = m.sqrt((density[i]-ndensity)**2+(modulus[i]-nmodulus)**2 +(strength[i]-nstrength)**2)
+    return distance
     
-#def knearestneighbor:
+def knearestneighbor(k, ndensity, nmodulus, nstrength, density, modulus, strength, classification):
     #from 3D arrays, create an array of the closest points and their classifications
-    
-#def topmaterials
-    #find top three points with different classifications
+    distance = distancearray(ndensity, nmodulus,nstrength, density, modulus, strength)
+    k_array = distance.argsort()[:k]
+    count_0 = 0
+    count_1 = 0
+    count_2 = 0
+    count_3 = 0
+    count_4 = 0
+    count_5 = 0
+    for i in k_array:
+        if classification[i] == 0:
+            count_0 += 1
+        elif classification[i] == 1:
+            count_1 += 1
+        elif classification[i] == 2:
+            count_2 += 2
+        elif classification[i] == 3:
+            count_3 += 3
+        elif classification[i] == 4:
+            count_4 += 4
+        else:
+            count_5 += 5
+    if (count_0 > count_1) and (count_0 > count_2) and (count_0 > count_3) and (count_0 > count_4) and (count_0 > count_5):
+        finalclassification = 0
+    elif (count_1 > count_0) and (count_1 > count_2) and (count_1 > count_3) and (count_1 > count_4) and (count_1 > count_5):
+        finalclassification = 1
+    elif (count_2 > count_0) and (count_2 > count_1) and (count_2 > count_3) and (count_2 > count_4) and (count_2 > count_5):
+        finalclassification = 2
+    elif (count_3 > count_0) and (count_3 > count_1) and (count_3 > count_2) and (count_3 > count_4) and (count_3 > count_5):
+        finalclassification = 3
+    elif (count_4 > count_0) and (count_4 > count_1) and (count_4 > count_2) and (count_4 > count_3) and (count_4 > count_5):
+        finalclassification = 4
+    elif (count_5 > count_0) and (count_5 > count_1) and (count_5 > count_2) and (count_5 > count_3) and (count_5 > count_4):
+        finalclassification = 5
+    print(finalclassification)
+    return finalclassification
+
+
+def topmaterials(finalclassification, ndensity, nmodulus, nstrength, density, modulus, strength, classification):
+    distance = distancearray(ndensity, nmodulus,nstrength, density, modulus, strength)
+    t_array = distance.argsort()[:]
+    top_array = np.zeros(3)
+    top_array[0] = finalclassification
+    p = 1
+    for x in range(len(t_array)-1):
+        for i in t_array:
+            if classification[i] != classification[i+1] and (classification[i] != top_array[p]) and (classification[i] != top_array[p-1]) and (classification[i] != finalclassification):
+                top_array[p] = classification[i]
+                if p < 2:
+                    p += 1
+                else:
+                    break
+    #later - ensure knearest agrees with nearest and that p = 0 == finalclassification
+    return top_array
     
 #def denormalize
     #denormalize the data
     
-#def returnmaterials
+def returnmaterials(top_array, final_classification):
+    if final_classification == 0:
+        first_material = "Magnesium"
+    elif final_classification == 1:
+        first_material = "Aluminum"
+    elif final_classification == 2:
+        first_material = "Steel"
+    elif final_classification == 3:
+        first_material = "Tungsten"
+    elif final_classification == 4:
+        first_material = "Zinc"
+    elif final_classification == 5:
+        first_material = "Titanium"
+    print("The first choice in material is ", first_material)
+    #print("The second choice in material is ", secondmaterial)
+    #print("The third choice in material is ", thirdmaterial)
     #return classifications of top three closest points of different material
     #return a percentage correlating to how close the test case was to each
     #return denormalized data corresponding to these materials
@@ -186,5 +249,5 @@ test_case = userData(d_min, d_max, m_min, m_max, s_min, s_max)
 graphdata2D(den, mod, stren, classif, test_case)    
 graphdata3D(den, mod, stren, classif, test_case)
 distance_array = distancearray(test_case[0,0], test_case[0,1], test_case[0,2], den, mod, stren)
-
-#make driver
+finalclass = knearestneighbor(5, test_case[0,0], test_case[0,1], test_case[0,2], den, mod, stren, classif)
+top_materials_array = topmaterials(finalclass, test_case[0,0], test_case[0,1], test_case[0,2], den, mod, stren, classif)
