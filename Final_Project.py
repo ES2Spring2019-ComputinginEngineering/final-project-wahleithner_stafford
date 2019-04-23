@@ -185,6 +185,6 @@ den, mod, stren, prop_array, d_min, d_max, m_min, m_max, s_min, s_max = normaliz
 test_case = userData(d_min, d_max, m_min, m_max, s_min, s_max)
 graphdata2D(den, mod, stren, classif, test_case)    
 graphdata3D(den, mod, stren, classif, test_case)
-distance_array = distancearray(test_case[:0], test_case[:1], test_case[:2], den, mod, stren)
+distance_array = distancearray(test_case[0,0], test_case[0,1], test_case[0,2], den, mod, stren)
 
 #make driver
