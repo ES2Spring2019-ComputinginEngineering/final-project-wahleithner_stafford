@@ -54,7 +54,6 @@ def readDataFile(filename):
 
 def normalize(density, modulus, strength, data_array):
     d_min = min(density)
-
     d_max = max(density)
     m_min = min(modulus)
     m_max = max(modulus)
@@ -69,12 +68,15 @@ def normalize(density, modulus, strength, data_array):
     for index in range(len(strength)):
         strength[index] = (strength[index]- s_min)/(s_max - s_min)
         data_array[index, 2] = strength[index]   
-    return density, modulus, strength, data_array
+    return density, modulus, strength, data_array, d_min, d_max, m_min, m_max, s_min, s_max
 
-def userData():
+def userData(d_min, d_max, m_min, m_max, s_min, s_max):
     density = input("What is the material's density? ")
     modulus = input("What is the material's modulus of elasticity? ")
     strength = input("What is the material's yield tensile strength? ")
+    density = (float(density) - d_min)/(d_max - d_min)
+    modulus = (float(modulus) - m_min)/(m_max - m_min)
+    strength = (float(strength) - s_min)/(s_max - s_min)
     test_array = np.zeros((1,3))
     test_array[0,0] = float(density)
     test_array[0,1] = float(modulus)
@@ -170,8 +172,8 @@ def graphdata3D(density, modulus, strength, classification, test_array):
 
 #Call functions
 den, mod, stren, classif, prop_array = readDataFile("data.csv")
-den, mod, stre, prop_array = normalize(den, mod, stren, prop_array)
-test_case = userData()
+den, mod, stren, prop_array, d_min, d_max, m_min, m_max, s_min, s_max = normalize(den, mod, stren, prop_array)
+test_case = userData(d_min, d_max, m_min, m_max, s_min, s_max)
 graphdata2D(den, mod, stren, classif, test_case)    
 graphdata3D(den, mod, stren, classif, test_case)
 
