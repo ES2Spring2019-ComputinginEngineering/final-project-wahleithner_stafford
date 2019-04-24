@@ -12,7 +12,7 @@ import math as m
 from IPython import get_ipython
 ipython = get_ipython()
 ipython.magic("matplotlib inline")
-#user interface
+#user interface,soecial print functions
 #labels for 3D
 #animation
 #driver
