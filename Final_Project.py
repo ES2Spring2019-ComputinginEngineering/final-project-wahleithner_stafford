@@ -10,17 +10,19 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math as m
 from IPython import get_ipython
+#interactive python, allows graphs to be interactive or not:
 ipython = get_ipython()
 ipython.magic("matplotlib inline")
-#user interface,soecial print functions
-#labels for 3D
+#To do:
+#user interface,special print functions
 #animation
-#driver
 
 
 def readDataFile(filename):
-    #function reads the data file, "data.csv" and reads three arrays of equal length:
-    #density, modulus of elasticity, tensile strength
+    #This function reads the data file, "data.csv" and creates four arrays of equal length:
+    #density, modulus of elasticity, tensile strength, and classification
+    #It then adds these arrays to a 4D array that contains all of our data
+   
     csv_file = open(filename)
     total_row = sum(1 for row in csv_file)
     csv_file.seek(0)
@@ -55,6 +57,10 @@ def readDataFile(filename):
     return density, modulus, strength, classification, data_array
 
 def normalize(density, modulus, strength, data_array):
+    #This function normalizes our data in all the arrays
+    #It returns the min/max of each property so we can denormalize it at the end,
+    #as well as normalize our user input
+   
     d_min = min(density)
     d_max = max(density)
     m_min = min(modulus)
@@ -73,6 +79,11 @@ def normalize(density, modulus, strength, data_array):
     return density, modulus, strength, data_array, d_min, d_max, m_min, m_max, s_min, s_max
 
 def userData(d_min, d_max, m_min, m_max, s_min, s_max):
+    #This function takes in user input for the properties of an unknown material,
+    #and then normalizes it
+    #It also asks the user whether or not the graphs should be interactive
+    #If you first say 'no', and then want to say 'yes', you must restart the kernel
+    
     density = input("What is the material's density? ")
     modulus = input("What is the material's modulus of elasticity? ")
     strength = input("What is the material's yield tensile strength? ")
@@ -90,7 +101,11 @@ def userData(d_min, d_max, m_min, m_max, s_min, s_max):
     return test_array
 
 def graphdata2D(density, modulus, strength, classification, test_array):
-    #density vs. tensile strength
+    #This function creates three 2D graphs comparing all of the properties
+    #of the materials and the unknown point
+    #It also saves the graphs as images in our GitHub file
+    
+    #Density vs. tensile strength
     plt.figure()
     plt.plot(density[classification==0], strength[classification==0],"yo", label = "Magnesium")
     plt.plot(density[classification==1], strength[classification==1],"bo", label = "Aluminum")
@@ -107,7 +122,7 @@ def graphdata2D(density, modulus, strength, classification, test_array):
     plt.savefig("density_strength.png")     #saves graph as a png file
     plt.show()
     
-    #density vs. modulus of elasticity
+    #Density vs. modulus of elasticity
     plt.figure()
     plt.plot(density[classification==0], modulus[classification==0],"yo", label = "Magnesium")
     plt.plot(density[classification==1], modulus[classification==1],"bo", label = "Aluminum")
@@ -124,7 +139,7 @@ def graphdata2D(density, modulus, strength, classification, test_array):
     plt.savefig("density_modulus.png")
     plt.show()
     
-    #modulus of elasticity vs. tensile strength
+    #Modulus of elasticity vs. tensile strength
     plt.figure()
     plt.plot(modulus[classification==0], strength[classification==0], "yo", label = "Magnesium")
     plt.plot(modulus[classification==1], strength[classification==1], "bo", label = "Aluminum")
@@ -142,6 +157,9 @@ def graphdata2D(density, modulus, strength, classification, test_array):
     plt.show()
     
 def graphdata3D(density, modulus, strength, classification, test_array):
+    #This function creates a 3D graph of all of our properties
+    #If the user chooses to make it interactive, the graph can be manipulated
+    
     fig = plt.figure()
     ax = Axes3D(fig)
     
@@ -162,12 +180,22 @@ def graphdata3D(density, modulus, strength, classification, test_array):
     plt.show()
 
 def distancearray(ndensity, nmodulus, nstrength, density, modulus, strength):
+    #This function creates an array, distance, with the distances
+    # of every point from the test case
+    
     distance = np.zeros(len(density))
     for i in range(len(density)):
         distance[i] = m.sqrt((density[i]-ndensity)**2+(modulus[i]-nmodulus)**2 +(strength[i]-nstrength)**2)
     return distance
     
 def knearestneighbor(k, ndensity, nmodulus, nstrength, density, modulus, strength, classification):
+    #This function performs k nearest neighbor.
+    #It creates an array, k_array, from the distance array
+    #k_array has 'k' indices of the distance array sorted min to max
+    #It then finds what the classification is for each point in k_array
+    #Whichever classification has the majority of the 'k' points,
+    #is the final classification of the unknown material
+    
     distance = distancearray(ndensity, nmodulus,nstrength, density, modulus, strength)
     k_array = distance.argsort()[:k] #array of indices of smallest k distances
     count_0 = 0
@@ -205,6 +233,14 @@ def knearestneighbor(k, ndensity, nmodulus, nstrength, density, modulus, strengt
 
 
 def topmaterials(finalclassification, ndensity, nmodulus, nstrength, density, modulus, strength, classification):
+    #This function finds the indices of the top 3 materials
+    #that the test case is closest to, with the k nearest being first
+    #t_array has the indices of the distant array sorted min to max
+    #The code goes through t_array and finds points whose classifications
+    #are different then all the ones before it, and puts the 
+    #classifications into top_array, and their correspoding distances
+    #into top_distance_array - this gives us the top 3 materials
+    
     distance = distancearray(ndensity, nmodulus,nstrength, density, modulus, strength)
     t_array = distance.argsort()[:]  #array of indices of the sorted distance
     top_distance_array = np.zeros(3) #array of distances corresponding to the 3 min distances in t_array
@@ -224,7 +260,11 @@ def topmaterials(finalclassification, ndensity, nmodulus, nstrength, density, mo
     return top_array, top_distance_array
     
 def returnmaterials(top_array, final_classification, top_distance_array):
-    #return classification of material and three most likely materials
+    #This function assigns each classification to a material and
+    #returns which material name each of the most likely materials is
+    #It also gives each material a 'score' based on how close
+    #it's distance is to our test case compared to the others
+
     #first material classification
     if final_classification == 0:
         first_material = "Magnesium"
@@ -274,15 +314,19 @@ def returnmaterials(top_array, final_classification, top_distance_array):
         score_array[i] = 1 - (top_distance_array[i])/top_distances_sum
     
     print("\nThe first choice in material is ", first_material)
-    print("Score of this material: ", round((score_array[0])*100, 3), "%")
+    print("Score of this material: ", round((score_array[0])*100, 2))
     print("\nThe second choice in material is ", second_material)
-    print("Score of this material: ", round((score_array[1])*100, 3), "%") 
+    print("Score of this material: ", round((score_array[1])*100, 2)) 
     print("\nThe third choice in material is ", third_material)
-    print("Score of this material: ", round((score_array[2])*100, 3), "%")
+    print("Score of this material: ", round((score_array[2])*100, 2))
+    print("Scores are given with 100 being the best choice")
     
     return first_material, second_material, third_material
     
 def denormalize(density, modulus, strength, data_array, d_min, d_max, m_min, m_max, s_min, s_max):
+    #This function denormalizes all of the data so that we can
+    #return it as a table to the user
+    
     for i in range(len(density)):
         density[i] = (density[i]+d_min)*(d_max - d_min)
         data_array[i, 0] = density[i]
@@ -295,6 +339,9 @@ def denormalize(density, modulus, strength, data_array, d_min, d_max, m_min, m_m
     return density, modulus, strength, data_array
 
 def returnproperty(density, modulus, strength, classification):
+    #This function returns a table with the average of all
+    #property values of each material
+    
     magnesium = np.zeros(3)
     aluminum = np.zeros(3)
     steel = np.zeros(3)
