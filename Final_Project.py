@@ -151,12 +151,13 @@ def graphdata3D(density, modulus, strength, classification, test_array):
     ax.scatter(density[classification == 3], modulus[classification == 3], strength[classification == 3], c='k', marker='o', label = "Tungsten")
     ax.scatter(density[classification == 4], modulus[classification == 4], strength[classification == 4], c='c', marker='o', label = "Zinc")
     ax.scatter(density[classification == 5], modulus[classification == 5], strength[classification == 5], c='m', marker='o', label = "Titanium")
-    ax.scatter(test_array[:,0],test_array[:,1],test_array[:,2], c = 'r', marker = 'o')
+    ax.scatter(test_array[:,0],test_array[:,1],test_array[:,2], c = 'r', marker = 'o', label = "Unknown")
     
     ax.set_xlabel("Density (g/cc)")
     ax.set_ylabel("Modulus of Elasticity (GPa)")
     ax.set_zlabel("Tensile Strength, at yield (MPa)")
     plt.title("Density - Modulus - Strength")
+    plt.legend()
     plt.savefig("density_strength_modulus.png", bbox_inches = "tight")
     plt.show()
 
@@ -168,7 +169,7 @@ def distancearray(ndensity, nmodulus, nstrength, density, modulus, strength):
     
 def knearestneighbor(k, ndensity, nmodulus, nstrength, density, modulus, strength, classification):
     distance = distancearray(ndensity, nmodulus,nstrength, density, modulus, strength)
-    k_array = distance.argsort()[:k]
+    k_array = distance.argsort()[:k] #array of indices of smallest k distances
     count_0 = 0
     count_1 = 0
     count_2 = 0
@@ -205,9 +206,9 @@ def knearestneighbor(k, ndensity, nmodulus, nstrength, density, modulus, strengt
 
 def topmaterials(finalclassification, ndensity, nmodulus, nstrength, density, modulus, strength, classification):
     distance = distancearray(ndensity, nmodulus,nstrength, density, modulus, strength)
-    t_array = distance.argsort()[:]
-    top_distance_array = np.zeros(3)
-    top_array = np.zeros(3)
+    t_array = distance.argsort()[:]  #array of indices of the sorted distance
+    top_distance_array = np.zeros(3) #array of distances corresponding to the 3 min distances in t_array
+    top_array = np.zeros(3) #array of classifications of the smallest distances
     top_array[0] = finalclassification
     top_distance_array[0] = min(distance)
     p = 1
@@ -266,16 +267,18 @@ def returnmaterials(top_array, final_classification, top_distance_array):
     elif top_array[2] == 5:
         third_material = "Titanium"
     
-    percentage_array = np.zeros(3)
+    score_array = np.zeros(3)
+    top_distances_sum = np.sum(top_distance_array)
+    
     for i in range(len(top_distance_array)):
-        percentage_array[i] = 1 - top_distance_array[i]
+        score_array[i] = 1 - (top_distance_array[i])/top_distances_sum
     
     print("\nThe first choice in material is ", first_material)
-    print("Likelihood of this material: ", round((percentage_array[0])*100, 3), "%")
+    print("Score of this material: ", round((score_array[0])*100, 3), "%")
     print("\nThe second choice in material is ", second_material)
-    print("Likelihood of this material: ", round((percentage_array[1])*100, 3), "%") 
+    print("Score of this material: ", round((score_array[1])*100, 3), "%") 
     print("\nThe third choice in material is ", third_material)
-    print("Likelihood of this material: ", round((percentage_array[2])*100, 3), "%")
+    print("Score of this material: ", round((score_array[2])*100, 3), "%")
     
     return first_material, second_material, third_material
     
