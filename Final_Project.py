@@ -155,7 +155,9 @@ def graphdata3D(density, modulus, strength, classification, test_array):
     ax.set_xlabel("Density (g/cc)")
     ax.set_ylabel("Modulus of Elasticity (GPa)")
     ax.set_zlabel("Tensile Strength, at yield (MPa)")
+    plt.title("Density - Modulus - Strength")
     plt.savefig("density_strength_modulus.png", bbox_inches = "tight")
+    plt.show()
 
 def distancearray(ndensity, nmodulus, nstrength, density, modulus, strength):
     distance = np.zeros(len(density))
@@ -198,7 +200,6 @@ def knearestneighbor(k, ndensity, nmodulus, nstrength, density, modulus, strengt
         finalclassification = 4
     elif (count_5 > count_0) and (count_5 > count_1) and (count_5 > count_2) and (count_5 > count_3) and (count_5 > count_4):
         finalclassification = 5
-    print(finalclassification)
     return finalclassification
 
 
@@ -219,13 +220,9 @@ def topmaterials(finalclassification, ndensity, nmodulus, nstrength, density, mo
                     p += 1
                 else:
                     break
-    #later - ensure knearest agrees with nearest and that p = 0 == finalclassification
     return top_array, top_distance_array
     
-#def denormalize
-    #denormalize the data
-    
-def returnmaterials(top_array, final_classification):
+def returnmaterials(top_array, final_classification, top_distance_array):
     #return classification of material and three most likely materials
     #first material classification
     if final_classification == 0:
@@ -268,47 +265,76 @@ def returnmaterials(top_array, final_classification):
         third_material = "Zinc"
     elif top_array[2] == 5:
         third_material = "Titanium"
-        
-    print("The first choice in material is ", first_material)
-    print("The second choice in material is ", second_material)
-    print("The third choice in material is ", third_material)
+    
+    percentage_array = np.zeros(3)
+    for i in range(len(top_distance_array)):
+        percentage_array[i] = 1 - top_distance_array[i]
+    
+    print("\nThe first choice in material is ", first_material)
+    print("Likelihood of this material: ", round((percentage_array[0])*100, 3), "%")
+    print("\nThe second choice in material is ", second_material)
+    print("Likelihood of this material: ", round((percentage_array[1])*100, 3), "%") 
+    print("\nThe third choice in material is ", third_material)
+    print("Likelihood of this material: ", round((percentage_array[2])*100, 3), "%")
     
     return first_material, second_material, third_material
     #return classifications of top three closest points of different material
     #return a percentage correlating to how close the test case was to each
     #return denormalized data corresponding to these materials
     
-def returnpercentage(top_distance_array):
-    percentage_array = np.zeros(3)
-    for i in range(len(top_distance_array)):
-        percentage_array[i] = 1 - top_distance_array[i]
-    
-    print("\nLikelihood of first material: ", (percentage_array[0])*100, "%")
-    print("Likelihood of second material: ", (percentage_array[1])*100, "%")   
-    print("Likelihood of third material: ", (percentage_array[2])*100, "%")
-    
-    return percentage_array
+def denormalize(density, modulus, strength, data_array, d_min, d_max, m_min, m_max, s_min, s_max):
+    for i in range(len(density)):
+        density[i] = (density[i]+d_min)*(d_max - d_min)
+        data_array[i, 0] = density[i]
+    for index in range(len(modulus)):
+        modulus[index] = (modulus[index]+ m_min)*(m_max - m_min)
+        data_array[index, 1] = modulus[index]
+    for index in range(len(strength)):
+        strength[index] = (strength[index]+ s_min)*(s_max - s_min)
+        data_array[index, 2] = strength[index] 
+    return density, modulus, strength, data_array
 
 def returnproperty(density, modulus, strength, classification):
     magnesium = np.zeros(3)
-    magnesium[0] = sum(density[classification == 0])/len(density[classification ==0])
-    magneisum[1] = sum(modulus[classification == 0])/len(modulus[classification ==0])
-    magnesium[2] = sum(strength[classification == 0])/len(strength[classification ==0])
-    aluminum[0] = sum(density[classification == 1])/len(density[classification ==1])
-    aluminum[1] = sum(modulus[classification == 1])/len(modulus[classification ==1])
-    aluminum[2] = sum(strength[classification == 1])/len(strength[classification ==1])
-    steel[0] = sum(density[classification == 2])/len(density[classification ==2])
-    steel[1] = sum(modulus[classification == 2])/len(modulus[classification ==2])
-    steel[2] = sum(strength[classification == 2])/len(strength[classification ==2])
-    tungsten[0] = sum(density[classification == 3])/len(density[classification ==3])
-    tungsten[1] = sum(modulus[classification == 3])/len(modulus[classification ==3])
-    tungsten[2] = sum(strength[classification == 2])/len(strength[classification ==3])
-    zinc[0] = sum(density[classification == 4])/len(density[classification ==4])
-    zinc[1] = sum(modulus[classification == 4])/len(modulus[classification ==4])
-    zinc[2] = sum(strength[classification == 4])/len(strength[classification ==4])
-    titanium[0] = sum(density[classification == 5])/len(density[classification ==5])
-    titanium[1] = sum(modulus[classification == 5])/len(modulus[classification ==5])
-    titanium[2] = sum(strength[classification == 5])/len(strength[classification ==5])
+    aluminum = np.zeros(3)
+    steel = np.zeros(3)
+    tungsten = np.zeros(3)
+    zinc = np.zeros(3)
+    titanium = np.zeros(3)
+    
+    magnesium[0] = round(sum(density[classification == 0])/len(density[classification ==0]), 3)
+    magnesium[1] = round(sum(modulus[classification == 0])/len(modulus[classification ==0]), 3)
+    magnesium[2] = round(sum(strength[classification == 0])/len(strength[classification ==0]), 3)
+    aluminum[0] = round(sum(density[classification == 1])/len(density[classification ==1]), 3)
+    aluminum[1] = round(sum(modulus[classification == 1])/len(modulus[classification ==1]), 3)
+    aluminum[2] = round(sum(strength[classification == 1])/len(strength[classification ==1]), 3)
+    steel[0] = round(sum(density[classification == 2])/len(density[classification ==2]), 3)
+    steel[1] = round(sum(modulus[classification == 2])/len(modulus[classification ==2]), 3)
+    steel[2] = round(sum(strength[classification == 2])/len(strength[classification ==2]), 3)
+    tungsten[0] = round(sum(density[classification == 3])/len(density[classification ==3]), 3)
+    tungsten[1] = round(sum(modulus[classification == 3])/len(modulus[classification ==3]), 3)
+    tungsten[2] = round(sum(strength[classification == 2])/len(strength[classification ==3]), 3)
+    zinc[0] = round(sum(density[classification == 4])/len(density[classification ==4]), 3)
+    zinc[1] = round(sum(modulus[classification == 4])/len(modulus[classification ==4]), 3)
+    zinc[2] = round(sum(strength[classification == 4])/len(strength[classification ==4]), 3)
+    titanium[0] = round(sum(density[classification == 5])/len(density[classification ==5]), 3)
+    titanium[1] = round(sum(modulus[classification == 5])/len(modulus[classification ==5]), 3)
+    titanium[2] = round(sum(strength[classification == 5])/len(strength[classification ==5]), 3)
+    
+
+    data = [magnesium, aluminum, steel, tungsten, zinc, titanium]
+    
+    columns = ("Density (g/cc)", "Modulus of Elasticty (GPa)", "Tensile Strength (MPa)")
+    rows = ["Magnesium", "Aluminum", "Steel", "Tungsten", "Zinc", "Titanium"]
+    
+    colors = plt.cm.BuPu(np.linspace(0, 0.5, len(rows)))
+ 
+    fig, axs =plt.subplots(figsize = (8,2.3))
+    axs.axis('off')
+    axs.table(cellText= data,rowLabels=rows, rowColours=colors, colLabels=columns, loc='center')
+    plt.title("Properties of All Materials")
+    plt.show()
+
     
 
 #Call functions
@@ -320,6 +346,6 @@ graphdata3D(den, mod, stren, classif, test_case)
 distance_array = distancearray(test_case[0,0], test_case[0,1], test_case[0,2], den, mod, stren)
 finalclass = knearestneighbor(5, test_case[0,0], test_case[0,1], test_case[0,2], den, mod, stren, classif)
 top_materials_array, top_dist_array = topmaterials(finalclass, test_case[0,0], test_case[0,1], test_case[0,2], den, mod, stren, classif)
-first_mat, second_mat, third_mat = returnmaterials(top_materials_array, finalclass)
-percent_array = returnpercentage(top_dist_array)
-properties = returnproperty(den, mod, stren, classif)
+first_mat, second_mat, third_mat = returnmaterials(top_materials_array, finalclass, top_dist_array)
+den, mod, stren, prop_array = denormalize(den, mod, stren, prop_array, d_min, d_max, m_min, m_max, s_min, s_max)
+returnproperty(den, mod, stren, classif)
