@@ -12,10 +12,11 @@ import math as m
 from IPython import get_ipython
 ipython = get_ipython()
 ipython.magic("matplotlib inline")
+#user interface
+#labels for 3D
+#animation
+#driver
 
-#change how plot appears
-#saving graphs within the code
-#generate videos from graph - rotation
 
 def readDataFile(filename):
     #function reads the data file, "data.csv" and reads three arrays of equal length:
@@ -166,7 +167,6 @@ def distancearray(ndensity, nmodulus, nstrength, density, modulus, strength):
     return distance
     
 def knearestneighbor(k, ndensity, nmodulus, nstrength, density, modulus, strength, classification):
-    #from 3D arrays, create an array of the closest points and their classifications
     distance = distancearray(ndensity, nmodulus,nstrength, density, modulus, strength)
     k_array = distance.argsort()[:k]
     count_0 = 0
@@ -278,9 +278,6 @@ def returnmaterials(top_array, final_classification, top_distance_array):
     print("Likelihood of this material: ", round((percentage_array[2])*100, 3), "%")
     
     return first_material, second_material, third_material
-    #return classifications of top three closest points of different material
-    #return a percentage correlating to how close the test case was to each
-    #return denormalized data corresponding to these materials
     
 def denormalize(density, modulus, strength, data_array, d_min, d_max, m_min, m_max, s_min, s_max):
     for i in range(len(density)):
