@@ -84,6 +84,12 @@ def userData(d_min, d_max, m_min, m_max, s_min, s_max):
     #It also asks the user whether or not the graphs should be interactive
     #If you first say 'no', and then want to say 'yes', you must restart the kernel
     
+    message = "Hi"
+    
+    print("\n", message, "\n")
+    print("****************************************")
+    
+    
     density = input("What is the material's density? ")
     modulus = input("What is the material's modulus of elasticity? ")
     strength = input("What is the material's yield tensile strength? ")
@@ -319,7 +325,7 @@ def returnmaterials(top_array, final_classification, top_distance_array):
     print("Score of this material: ", round((score_array[1])*100, 2)) 
     print("\nThe third choice in material is ", third_material)
     print("Score of this material: ", round((score_array[2])*100, 2))
-    print("Scores are given with 100 being the best choice")
+    print("\nScores are given with 100 being the best choice")
     
     return first_material, second_material, third_material
     
@@ -380,5 +386,6 @@ def returnproperty(density, modulus, strength, classification):
     axs.axis('off')
     axs.table(cellText= data,rowLabels=rows, rowColours=colors, colLabels=columns, loc='center')
     plt.title("Properties of All Materials")
+    plt.savefig("property_table.png")
     plt.show()
     
