@@ -1,4 +1,5 @@
-# This is your Final Project ReadMe Template
+
+
 
 The file is inside your final project repository called "README.md"
 
@@ -10,17 +11,50 @@ Below is some example text in markdown however this alone is not suffiecent for 
 
 Delete the instructions above this line and the line:
 
+# Final Project: Material Identification
+
+Our project focuses on classifying and identifying unknown materials. Most materials have some level of variance in their property measurements, so it is not always so simple to identify which material you have. Ensuring that this identification is correct can prevent future errors in process design and manufacturing. Our project is designed to identify and classify unknown materials. It will classify a material when provided information on the properties of a material. 
+
 ---------------------------------------------
-
-# Project Title
-
-Short project description here, click the **EDIT (pencil) button** in the top right corner of this frame to copy the markdown formatted template.
 
 ## Instructions
 
-Describe how the users(instructors) should run your code to see an ***easy to run example of the functionality***. This should all be in a *main.py* "driver" script.
+- Open Final_Project.py and run the script (nothing will happen). 
+- Open Final_Project_driver.py and run the script.
+- Program will ask for the user's density, modulus of elasticity, and strength of their unknown material
+- Enter one of the test cases given in the driver code
+- Or, enter your own test case which must be within the range of the property (you can look at the min/max variables)
+- The script will ask whether or not you want the graphs and tables to be interactive (which allows you to rotate the 3D graph)
+- To be interactive, type 'yes', and to stay within the script, say 'no'
+- If you say 'no' and then want to say 'yes', you must restart the kernel, but it is fine to say 'yes' and then 'no'
+- The script will return the top three most likely materials, indicated with scores from 0 to 100, as well as a table of the average properties of each material
 
 ## File List
+
+Final_Project.py:
+- 
+
+Final_Project_driver.py:
+- 
+
+data.csv:
+- 
+
+README.md:
+-
+
+density_modulus.png:
+-
+
+density_strength.png:
+- 
+
+modulus_strength.png:
+- 
+
+density_strength_modulus.png:
+-
+
 
 Create a list of all of the files in your repository with one sentence descriptions 
 
