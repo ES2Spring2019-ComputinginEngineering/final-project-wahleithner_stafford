@@ -32,31 +32,37 @@ Our project focuses on classifying and identifying unknown materials. Most mater
 ## File List
 
 Final_Project.py:
-- 
+- This is the main script of our code. 
+- The script takes in input from the user and compares the user's test case to property data from six different materials.
+- Using classification techniques, the program finds the top three closest materials to the test case.
+- This script returns three 2-D graphs and one 3-D graph comparing the properties of all materials, the top three material names and their 'scores' indicating how close they are, and a table of the average property values for each material.
 
 Final_Project_driver.py:
-- 
+- This script calls the functions within the Final_Project.py script.
+- It gives examples of test cases to use for each of the six materials, which should return a score of 100, as well as some random edge cases.
 
 data.csv:
-- 
+- This is a csv file that contains data of the three properties of each material, using different alloys.
+- This data comes from MatWeb's Property Search.
 
 README.md:
--
+- This file gives a description of our program and how to run it.
 
 density_modulus.png:
--
+- This is the saved 2-D graph of density versus modulus for all materials, including the last used test case.
 
 density_strength.png:
-- 
+- This is the saved 2-D graph of density versus strength for all materials, including the last used test case.
 
 modulus_strength.png:
-- 
+- This is the saved 2-D graph of modulus versus strength for all materials, including the last used test case.
 
 density_strength_modulus.png:
--
+- This is the saved 3-D graph of all the properties for all materials, including the last used test case.
 
+## Features
 
-Create a list of all of the files in your repository with one sentence descriptions 
+For this code, we used  
 
 ## How to format your readme
 
