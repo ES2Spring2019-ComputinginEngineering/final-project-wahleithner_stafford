@@ -328,13 +328,13 @@ def denormalize(density, modulus, strength, data_array, d_min, d_max, m_min, m_m
     #return it as a table to the user
     
     for i in range(len(density)):
-        density[i] = (density[i]+d_min)*(d_max - d_min)
+        density[i] = ((density[i])*(d_max - d_min)) + d_min
         data_array[i, 0] = density[i]
     for index in range(len(modulus)):
-        modulus[index] = (modulus[index]+ m_min)*(m_max - m_min)
+        modulus[index] = ((modulus[index])*(m_max - m_min)) + m_min
         data_array[index, 1] = modulus[index]
     for index in range(len(strength)):
-        strength[index] = (strength[index]+ s_min)*(s_max - s_min)
+        strength[index] = ((strength[index])*(s_max - s_min)) + s_min
         data_array[index, 2] = strength[index] 
     return density, modulus, strength, data_array
 
