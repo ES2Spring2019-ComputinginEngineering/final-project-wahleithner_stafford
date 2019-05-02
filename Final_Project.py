@@ -249,7 +249,7 @@ def topmaterials(finalclassification, ndensity, nmodulus, nstrength, density, mo
     top_distance_array[0] = min(distance)
     p = 1
     for x in range(len(t_array)-1):
-        for i in t_array:
+        for i in t_array[0:146]:
             if classification[i] != classification[i+1] and (classification[i] != top_array[p]) and (classification[i] != top_array[p-1]) and (classification[i] != finalclassification):
                 top_array[p] = classification[i]
                 top_distance_array[p] = distance[i]

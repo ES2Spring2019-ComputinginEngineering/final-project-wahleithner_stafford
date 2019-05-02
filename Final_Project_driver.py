@@ -19,3 +19,18 @@ top_materials_array, top_dist_array = topmaterials(finalclass, test_case[0,0], t
 first_mat, second_mat, third_mat = returnmaterials(top_materials_array, finalclass, top_dist_array)
 den, mod, stren, prop_array = denormalize(den, mod, stren, prop_array, d_min, d_max, m_min, m_max, s_min, s_max)
 returnproperty(den, mod, stren, classif)
+
+#Test Cases:
+
+#cases with high scores:
+#45, 1.78, 138 = Magnesium
+#69, 2.7, 145 = Aluminum
+#200, 7.87, 676 = Steel
+#365, 18.5, 586 = Tungsten
+#85.5, 6.3, 290 = Zinc
+#102, 4.65, 940 = Titanium
+
+#Edge Cases:
+#150, 5, 200 = Zinc
+#300, 5, 200 = Steel
+#50, 5, 800 = Titanium
