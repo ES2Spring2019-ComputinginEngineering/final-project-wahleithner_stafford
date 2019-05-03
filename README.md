@@ -47,6 +47,9 @@ modulus_strength.png:
 density_strength_modulus.png:
 - This is the saved 3-D graph of all the properties for all materials, including the last used test case.
 
+property_table.png:
+- This is the saved table of the average property values of all materials.
+
 ## Features
 For this code, we used clustering techniques, classification, importing data from a file, and descriptive statistics. We included a few new modules in our program, including mpl_toolkits.myplot3d and IPython for 3D graphs and user interface. We used new functions within matplotlib module to create a table with colors and a 3D graph.
 
