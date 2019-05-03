@@ -33,6 +33,6 @@ returnproperty(den, mod, stren, classif)
 #Edge Cases:
 #150, 5, 200 = Zinc
 #300, 5, 200 = Steel
-#50, 5, 800 = Titanium
+#50, 5, 900 = Titanium
 
 #Based on property table given, feel free to test other values.

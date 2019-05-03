@@ -84,7 +84,18 @@ def userData(d_min, d_max, m_min, m_max, s_min, s_max):
     #It also asks the user whether or not the graphs should be interactive
     #If you first say 'no', and then want to say 'yes', you must restart the kernel
     
-    message = "Hi"
+    message = ("Hello and welcome to Material Identification.\n \n \
+    This program is designed to identify an unknown material as \
+    one of six materials: Magnesium, Aluminum, Steel, Tungsten, \
+    Zinc, and Titanium. This program will ask you for three \
+    property values of the unknown material: density (g/cc), \
+    modulus of elasticity (GPa), and tensile strength at \
+    yield (MPa). This program will return the three nearest \
+    classification material names of this material as well as the \
+    score of how likely this material is correctly  classifiying \
+    the material. Also, the program will return a table with the \
+    average property values of all six of the materials. \n \n \
+    Please enter your property values below. \n")
     
     print("\n", message, "\n")
     print("****************************************")
@@ -254,15 +265,14 @@ def topmaterials(finalclassification, ndensity, nmodulus, nstrength, density, mo
     top_array[0] = finalclassification
     top_distance_array[0] = min(distance)
     p = 1
-    for x in range(len(t_array)-1):
-        for i in t_array[0:146]:
-            if classification[i] != classification[i+1] and (classification[i] != top_array[p]) and (classification[i] != top_array[p-1]) and (classification[i] != finalclassification):
-                top_array[p] = classification[i]
-                top_distance_array[p] = distance[i]
-                if p < 2:
-                    p += 1
-                else:
-                    break
+
+    for i in t_array:
+        if (classification[i] != top_array[p-1]) and (classification[i] != finalclassification):
+            top_array[p] = classification[i]
+            top_distance_array[p] = distance[i]
+            p += 1
+            if p > 2:
+                break
     return top_array, top_distance_array
     
 def returnmaterials(top_array, final_classification, top_distance_array):
