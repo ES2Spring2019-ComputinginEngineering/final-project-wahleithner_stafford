@@ -1,9 +1,8 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
 """
 Created on Mon Apr 22 05:02:27 2019
 
-@author: gillianwahleithner
+@author: Zosia and Gillian
 """
 
 from Final_Project import readDataFile, normalize, userData, graphdata2D, graphdata3D, distancearray, knearestneighbor, topmaterials, returnmaterials, returnproperty, denormalize
