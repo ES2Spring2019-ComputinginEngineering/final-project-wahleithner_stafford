@@ -84,7 +84,7 @@ def userData(d_min, d_max, m_min, m_max, s_min, s_max):
     #If you first say 'no', and then want to say 'yes', you must restart the kernel
     
     message = ("Hello and welcome to Material Identification.  " + '\n' + '\n' +
-               "This program is designed to identify an unknown material as" +
+               "This program is designed to identify an unknown material as " +
                "one of six materials: Magnesium, Aluminum, Steel, Tungsten, " +
                "Zinc, and Titanium. This program will ask you for three ," +
                "property values of the unknown material: density (g/cc), " +
