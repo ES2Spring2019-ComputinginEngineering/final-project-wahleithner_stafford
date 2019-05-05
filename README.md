@@ -52,17 +52,3 @@ property_table.png:
 
 ## Features
 For this code, we used clustering techniques, classification, importing data from a file, and descriptive statistics. We included a few new modules in our program, including mpl_toolkits.myplot3d and IPython for 3D graphs and user interface. We used new functions within matplotlib module to create a table with colors and a 3D graph.
-
-## How to format your readme
-
-In your readme, you can:
-```
-Give code examples
-```
-
-You can also include useful links, like this one with information about [formatting markdown](https://help.github.com/en/articles/basic-writing-and-formatting-syntax)
-
-You can 
-- Also
-- Make
-- Lists
