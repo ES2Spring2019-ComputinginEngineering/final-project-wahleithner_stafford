@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 """
 Created on Wed Apr 17 15:08:55 2019
 
-@author: zosia
+@author: Zosia and Gillian
 """
 import csv
 from mpl_toolkits.mplot3d import Axes3D
