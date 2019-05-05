@@ -84,26 +84,26 @@ def userData(d_min, d_max, m_min, m_max, s_min, s_max):
     #It also asks the user whether or not the graphs should be interactive
     #If you first say 'no', and then want to say 'yes', you must restart the kernel
     
-    message = ("Hello and welcome to Material Identification.\n \n \
-    This program is designed to identify an unknown material as \
-    one of six materials: Magnesium, Aluminum, Steel, Tungsten, \
-    Zinc, and Titanium. This program will ask you for three \
-    property values of the unknown material: density (g/cc), \
-    modulus of elasticity (GPa), and tensile strength at \
-    yield (MPa). This program will return the three nearest \
-    classification material names of this material as well as the \
-    score of how likely this material is correctly  classifiying \
-    the material. Also, the program will return a table with the \
-    average property values of all six of the materials. \n \n \
-    Please enter your property values below. \n")
+    message = ("Hello and welcome to Material Identification.  " + '\n' + '\n' +
+               "This program is designed to identify an unknown material as" +
+               "one of six materials: Magnesium, Aluminum, Steel, Tungsten, " +
+               "Zinc, and Titanium. This program will ask you for three ," +
+               "property values of the unknown material: density (g/cc), " +
+               "modulus of elasticity (GPa), and tensile strength at " +
+               "yield (MPa). This program will return the three nearest " +
+               "classification material names of this material as well as the" +
+               " score of how likely this material is correctly  classifiying" +
+               " the material. Also, the program will return a table with the" +
+               " average property values of all six of the materials." + '\n' + '\n' +
+               "Please enter your property values below.")
     
-    print("\n", message, "\n")
+    print("\n",message, "\n")
     print("****************************************")
     
     
-    density = input("What is the material's density? ")
-    modulus = input("What is the material's modulus of elasticity? ")
-    strength = input("What is the material's yield tensile strength? ")
+    density = input("What is the material's density (g/cc)? ")
+    modulus = input("What is the material's modulus of elasticity (GPa)? ")
+    strength = input("What is the material's yield tensile strength (MPa)? ")
     ndensity = (float(density) - d_min)/(d_max - d_min)
     nmodulus = (float(modulus) - m_min)/(m_max - m_min)
     nstrength = (float(strength) - s_min)/(s_max - s_min)
